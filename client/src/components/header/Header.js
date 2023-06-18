@@ -1,15 +1,60 @@
-import { Container, Nav, Navbar } from "react-bootstrap";
+import "./header.css";
+import { Container, Navbar, Dropdown } from "react-bootstrap";
+import logo from "../../images/nifty.png";
+import { Link } from "react-router-dom";
+import { FaUserAlt } from "react-icons/fa";
 
 const Header = () => {
+  const user = true;
+
   return (
     <>
       <Navbar className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="/">Navbar with text</Navbar.Brand>
+          <Link to="/" className="text-black link">
+            <img src={logo} alt="logo" className="logo" />
+            <span className="mx-2 fw-bold">NIFTY IT SOLUTION LTD</span>
+          </Link>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text className="nav_link">Register</Navbar.Text>
-            <Navbar.Text className="mx-2 nav_link">Login</Navbar.Text>
+            {user && (
+              <>
+                <Navbar.Text className="nav_link">
+                  <Link to={`/register`} className="quick_link">
+                    Register
+                  </Link>
+                </Navbar.Text>
+                <Navbar.Text className="mx-3 nav_link">
+                  <Link to={`/login`} className="quick_link">
+                    Login
+                  </Link>
+                </Navbar.Text>
+              </>
+            )}
+            <Navbar.Text className="mx-3 nav_link">
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  <FaUserAlt />
+                  <span className="mx-2">Mahabur </span>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item>
+                    <Link to={`/profile`} className="quick_link">
+                      Profile
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Link to={`/payment`} className="quick_link">
+                      Payment
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <button className="logout_btn">Logout</button>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Navbar.Text>
           </Navbar.Collapse>
         </Container>
       </Navbar>

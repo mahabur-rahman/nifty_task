@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import lottie from "lottie-web";
+import { Link } from "react-router-dom";
 
-function Home() {
+function Error() {
   const container = useRef(null);
 
   useEffect(() => {
@@ -10,20 +11,25 @@ function Home() {
       renderer: "svg",
       loop: true,
       autoplay: true,
-      animationData: require("../../data/computer.json"),
+      animationData: require("../../data/error.json"),
     });
   }, []);
 
   return (
-    <container className="home">
-      <h1 className="text-center mt-4">Welcome to home page</h1>
+    <container className="error">
       <div
         ref={container}
         style={{ width: "500px", height: "500px" }}
         className="mx-auto"
       ></div>
+
+      <div className="text-center">
+        <Link to={`/`} className="btn btn-primary">
+          Back to Home page
+        </Link>
+      </div>
     </container>
   );
 }
 
-export default Home;
+export default Error;

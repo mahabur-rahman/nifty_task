@@ -1,0 +1,27 @@
+.nav_link{
+   cursor: pointer;
+   font-weight: 600;
+   font-size: 18px;
+}
+.logo{
+   width: 60px;
+   height: 60px;
+   object-fit: cover;
+}
+
+.link{
+   text-decoration: none;
+
+}
+
+
+.quick_link{
+   text-decoration: none;
+}
+
+
+.logout_btn{
+   border: none;
+   color: #ff0000;
+   background: transparent;
+}

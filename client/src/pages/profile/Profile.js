@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../context/Context";
@@ -15,6 +15,15 @@ const Profile = () => {
 
   // context
   const { user, dispatch } = useContext(UserContext);
+
+  useEffect(() => {
+    // Clean up the message after 3 seconds
+    const timer = setTimeout(() => {
+      setMsg(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [msg]);
 
   // update profile
   const updateProfile = async (e) => {

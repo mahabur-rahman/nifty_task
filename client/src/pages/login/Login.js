@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState(false);
   // from context
   const { user, isFetching, dispatch } = useContext(UserContext);
 
@@ -19,6 +20,7 @@ const Login = () => {
   // loginUser
   const loginUser = async (e) => {
     e.preventDefault();
+    setErrMsg(false);
 
     if (email === "") {
       toast.error("email is required!", {
@@ -48,13 +50,13 @@ const Login = () => {
         // navigate to home page
         res.data && history.push("/");
       } catch (err) {
+        setErrMsg(true);
         console.log(err);
         dispatch({ type: "LOGIN_FAILURE" });
       }
     }
   };
 
-  console.log(user);
   return (
     <>
       <Container className="login">
@@ -90,6 +92,12 @@ const Login = () => {
                 >
                   Login
                 </Button>
+
+                {errMsg && (
+                  <div className="text-danger text-center">
+                    Wrong credentials, please try again!
+                  </div>
+                )}
               </div>
               <p className="text-center my-1">
                 Don't have an account? Please

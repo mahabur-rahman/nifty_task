@@ -15,10 +15,6 @@ const Settings = () => {
   // context
   const { user, dispatch } = useContext(UserContext);
 
-  const location = useLocation();
-  const id = location?.state?.data?.id;
-  console.log(id);
-
   useEffect(() => {
     // Clean up the message after 3 seconds
     const timer = setTimeout(() => {
@@ -71,10 +67,6 @@ const Settings = () => {
       }
     }
   };
-
-  // if (id === undefined) {
-  //   return;
-  // }
 
   return (
     <>

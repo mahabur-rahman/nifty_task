@@ -9,8 +9,18 @@ import Settings from "../../components/settings/Settings";
 
 const Profile = () => {
   const location = useLocation();
-  const id = location?.state?.data?.id;
-  console.log(id);
+  const idFromLocation = location?.state?.data?.id;
+  const [id, setId] = useState(null);
+
+  useEffect(() => {
+    const storedId = localStorage.getItem("profileId");
+    if (idFromLocation) {
+      localStorage.setItem("profileId", idFromLocation);
+      setId(idFromLocation);
+    } else if (storedId) {
+      setId(storedId);
+    }
+  }, [idFromLocation]);
 
   return (
     <>

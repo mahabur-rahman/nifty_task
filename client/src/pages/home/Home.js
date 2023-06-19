@@ -30,7 +30,9 @@ const Home = () => {
         </>
       ) : (
         <div className="text-center mt-5 pt-5">
-          <h1>Better Solutions For Your Business With NIFTY IT SOLUTION.</h1>
+          <h1>
+            Better Solutions For Your Business <br /> With NIFTY IT SOLUTION.
+          </h1>
           <p>
             We are team of talented Accountant, Web & Mobile App Developers.
           </p>

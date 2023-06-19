@@ -8,6 +8,8 @@ import { useHistory } from "react-router-dom";
 
 const Payment = () => {
   const [stripeToken, setStripeToken] = useState(null);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   // publishable key from (stripe.com)
   const KEY = process.env.REACT_APP_STRIPE;
@@ -31,11 +33,18 @@ const Payment = () => {
         );
 
         console.log(`res data: `, res.data);
+        setPaymentProcessing(false);
+        setPaymentSuccess(true);
       } catch (err) {
         console.log(err);
+        setPaymentProcessing(false);
       }
     };
-    stripeToken && makeRequest();
+
+    if (stripeToken) {
+      setPaymentProcessing(true);
+      makeRequest();
+    }
   }, [stripeToken]);
 
   return (
@@ -63,18 +72,30 @@ const Payment = () => {
                   <span>/mo</span>
                 </div>
 
-                <StripeCheckout
-                  name="Nifty IT Solution Ltd."
-                  image="https://plus.unsplash.com/premium_photo-1679826780125-a07070522053?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80"
-                  billingAddress
-                  shippingAddress
-                  description={`Your total is : $10`}
-                  amount={10 * 100}
-                  token={onToken}
-                  stripeKey={KEY}
-                >
-                  <Button className="btn purchase_btn">Purchase</Button>
-                </StripeCheckout>
+                {paymentSuccess ? (
+                  <div className="success_message">Payment Successful!</div>
+                ) : paymentProcessing ? (
+                  <div className="processing_message">
+                    Processing, Please wait...
+                  </div>
+                ) : (
+                  <>
+                    {!stripeToken && (
+                      <StripeCheckout
+                        name="Nifty IT Solution Ltd."
+                        image="https://plus.unsplash.com/premium_photo-1679826780125-a07070522053?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80"
+                        billingAddress
+                        shippingAddress
+                        description={`Your total is : $10`}
+                        amount={10 * 100}
+                        token={onToken}
+                        stripeKey={KEY}
+                      >
+                        <Button className="btn purchase_btn">Purchase</Button>
+                      </StripeCheckout>
+                    )}
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

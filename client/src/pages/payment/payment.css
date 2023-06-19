@@ -52,3 +52,13 @@ font-weight: 500;
 .card:hover {
    background-color: #fafafa;
 }
+
+.success_msg{
+   color: green;
+   letter-spacing: .5px;
+   font-weight: 500;
+}
+
+.error_msg {
+  color: red;
+}

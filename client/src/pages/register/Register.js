@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -10,17 +12,60 @@ const Register = () => {
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
 
+  const history = useHistory();
+
   const registerUser = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await axios.post('http://localhost:8080/api/auth/register',{
-        name, email, password, gender, dateOfBirth
-      })
+    // validation of input field
+    if (name === "") {
+      toast.warning("name is required", {
+        position: "top-center",
+      });
+    } else if (email === "") {
+      toast.error("email is required", {
+        position: "top-center",
+      });
+    } else if (!email.includes("@")) {
+      toast.warning("includes @ in your email", {
+        position: "top-center",
+      });
+    } else if (password === "") {
+      toast.error("password is required", {
+        position: "top-center",
+      });
+    } else if (gender === "") {
+      toast.error("please choose your gender", {
+        position: "top-center",
+      });
+    } else if (dateOfBirth === "") {
+      toast.error("please choose date of birth", {
+        position: "top-center",
+      });
+    } else {
+      try {
+        // api call
+        const res = await axios.post(
+          "http://localhost:8080/api/auth/register",
+          {
+            name,
+            email,
+            password,
+            gender,
+            dateOfBirth,
+          }
+        );
 
-      console.log(res.data)
-    } catch (err) {
-      console.log(err);
+        setName("");
+        setEmail("");
+        setPassword("");
+        setGender("");
+        setDateOfBirth("");
+
+        res.data && history.push("/login");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -65,6 +110,7 @@ const Register = () => {
                 <Form.Label className="fw-bold">Gender :</Form.Label>
                 <Form.Select
                   aria-label="Default select example"
+                  value={gender}
                   onChange={(e) => setGender(e.target.value)}
                 >
                   <option>choose an option</option>
@@ -100,6 +146,9 @@ const Register = () => {
                 </Link>
               </p>
             </Form>
+
+            {/* react toastify */}
+            <ToastContainer />
           </Col>
         </Row>
       </Container>

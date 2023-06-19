@@ -10,7 +10,7 @@ const createPaymentWithStripe = async (req, res) => {
     },
     (stripeErr, stripeRes) => {
       if (stripeErr) {
-        return res.status(500).json(err);
+        return res.status(500).json(stripeErr);
       } else {
         return res.status(200).json(stripeRes);
       }

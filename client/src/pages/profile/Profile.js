@@ -80,7 +80,7 @@ const Profile = () => {
                 <Form.Label className="fw-bold">Name :</Form.Label>
                 <Form.Control
                   type="email"
-                  placeholder="Enter your name"
+                  placeholder={user?.name}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />

@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useRef } from "react";
 import lottie from "lottie-web";
 import { UserContext } from "../../context/Context";
+import { Container } from "react-bootstrap";
 
-function Home() {
+const Home = () => {
   const { user } = useContext(UserContext);
   const container = useRef(null);
 
@@ -17,7 +18,7 @@ function Home() {
   }, []);
 
   return (
-    <container className="home">
+    <Container className="home">
       {user ? (
         <>
           <h1 className="text-center mt-4 text-capitalize">
@@ -37,8 +38,8 @@ function Home() {
       )}
 
       <div ref={container} style={{ width: "700px" }} className="mx-auto"></div>
-    </container>
+    </Container>
   );
-}
+};
 
 export default Home;

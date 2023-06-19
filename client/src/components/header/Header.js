@@ -3,9 +3,11 @@ import { Container, Navbar, Dropdown } from "react-bootstrap";
 import logo from "../../images/nifty.png";
 import { Link } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
+import { useContext } from "react";
+import { UserContext } from "../../context/Context";
 
 const Header = () => {
-  const user = true;
+  const { user } = useContext(UserContext);
 
   return (
     <>

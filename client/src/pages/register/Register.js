@@ -11,11 +11,14 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [error, setError] = useState(false);
 
   const history = useHistory();
 
   const registerUser = async (e) => {
     e.preventDefault();
+
+    setError(false);
 
     // validation of input field
     if (name === "") {
@@ -61,10 +64,10 @@ const Register = () => {
         setPassword("");
         setGender("");
         setDateOfBirth("");
-
         res.data && history.push("/login");
       } catch (err) {
         console.log(err);
+        setError(true);
       }
     }
   };
@@ -139,6 +142,12 @@ const Register = () => {
                   Register User
                 </Button>
               </div>
+
+              {error && (
+                <div className="text-danger text-center">
+                  User name and email must be unique!
+                </div>
+              )}
               <p className="text-center my-1">
                 You have already an account? Please
                 <Link to={`/login`} className="mx-1">

@@ -7,7 +7,12 @@ import { useContext } from "react";
 import { UserContext } from "../../context/Context";
 
 const Header = () => {
-  const { user } = useContext(UserContext);
+  const { user, dispatch } = useContext(UserContext);
+
+  // logout user
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+  };
 
   return (
     <>
@@ -19,7 +24,7 @@ const Header = () => {
           </Link>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
-            {user && (
+            {!user && (
               <>
                 <Navbar.Text className="nav_link">
                   <Link to={`/register`} className="quick_link">
@@ -33,30 +38,43 @@ const Header = () => {
                 </Navbar.Text>
               </>
             )}
-            <Navbar.Text className="mx-3 nav_link">
-              <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                  <FaUserAlt />
-                  <span className="mx-2">Mahabur </span>
-                </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                  <Dropdown.Item>
-                    <Link to={`/profile`} className="quick_link">
-                      Profile
-                    </Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link to={`/payment`} className="quick_link">
-                      Payment
-                    </Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <button className="logout_btn">Logout</button>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Navbar.Text>
+            {user && (
+              <Navbar.Text className="nav_link">
+                <Link to={`/payment`} className="quick_link">
+                  Payment
+                </Link>
+              </Navbar.Text>
+            )}
+
+            {user && (
+              <Navbar.Text className="mx-3 nav_link">
+                <Dropdown>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    <FaUserAlt />
+                    <span className="mx-2">Mahabur </span>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item>
+                      <Link to={`/profile`} className="quick_link">
+                        Profile
+                      </Link>
+                    </Dropdown.Item>
+                    {/* <Dropdown.Item>
+                      <Link to={`/payment`} className="quick_link">
+                        Payment
+                      </Link>
+                    </Dropdown.Item> */}
+                    <Dropdown.Item>
+                      <button className="logout_btn" onClick={logout}>
+                        Logout
+                      </button>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Navbar.Text>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>

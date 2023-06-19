@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import lottie from "lottie-web";
+import { UserContext } from "../../context/Context";
 
 function Home() {
+  const { user } = useContext(UserContext);
   const container = useRef(null);
 
   useEffect(() => {
@@ -16,12 +18,25 @@ function Home() {
 
   return (
     <container className="home">
-      <h1 className="text-center mt-4">Welcome to home page</h1>
-      <div
-        ref={container}
-        style={{ width: "500px", height: "500px" }}
-        className="mx-auto"
-      ></div>
+      {user ? (
+        <>
+          <h1 className="text-center mt-4 text-capitalize">
+            Welcome <span style={{ color: "green" }}>{user?.name}</span>
+          </h1>
+          <div className="mx-2 text-center">
+            (Date of Birth: {new Date(user?.dateOfBirth).toDateString()})
+          </div>
+        </>
+      ) : (
+        <div className="text-center mt-5 pt-5">
+          <h1>Better Solutions For Your Business With NIFTY IT SOLUTION.</h1>
+          <p>
+            We are team of talented Accountant, Web & Mobile App Developers.
+          </p>
+        </div>
+      )}
+
+      <div ref={container} style={{ width: "700px" }} className="mx-auto"></div>
     </container>
   );
 }

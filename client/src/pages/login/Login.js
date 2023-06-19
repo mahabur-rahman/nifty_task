@@ -11,6 +11,9 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState(false);
+  // password show/hide state
+  const [toggle, setToggle] = useState(false);
+
   // from context
   const { user, isFetching, dispatch } = useContext(UserContext);
 
@@ -72,14 +75,20 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupPassword">
+              <Form.Group
+                className="mb-3 pass_main_div"
+                controlId="formGroupPassword"
+              >
                 <Form.Label className="fw-bold">Password :</Form.Label>
                 <Form.Control
-                  type="password"
+                  type={!toggle ? "password" : "text"}
                   placeholder="******"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <div className="showpass" onClick={() => setToggle(!toggle)}>
+                  {!toggle ? "Show" : "Hide"}
+                </div>
               </Form.Group>
 
               <div className="d-grid gap-2">

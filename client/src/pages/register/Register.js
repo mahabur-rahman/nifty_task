@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./register.css";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
@@ -12,6 +13,8 @@ const Register = () => {
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [error, setError] = useState(false);
+  // password show/hide state
+  const [toggle, setToggle] = useState(false);
 
   const history = useHistory();
 
@@ -99,14 +102,17 @@ const Register = () => {
                 />
               </Form.Group>
 
-              <Form.Group className="mb-3" controlId="password">
+              <Form.Group className="mb-3 pass_main_div" controlId="password">
                 <Form.Label className="fw-bold">Password :</Form.Label>
                 <Form.Control
-                  type="password"
+                  type={!toggle ? "password" : "text"}
                   placeholder="******"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <div className="showpass" onClick={() => setToggle(!toggle)}>
+                  {!toggle ? "Show" : "Hide"}
+                </div>
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="gender">

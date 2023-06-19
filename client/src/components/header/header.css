@@ -20,8 +20,17 @@
 }
 
 
+.quick_link:focus{
+   box-shadow: none !important;
+}
+
+
+
+
+
 .logout_btn{
    border: none;
    color: #ff0000;
    background: transparent;
 }
+

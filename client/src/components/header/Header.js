@@ -64,11 +64,7 @@ const Header = () => {
                         Profile
                       </Link>
                     </Dropdown.Item>
-                    {/* <Dropdown.Item>
-                      <Link to={`/payment`} className="quick_link">
-                        Payment
-                      </Link>
-                    </Dropdown.Item> */}
+
                     <Dropdown.Item>
                       <button className="logout_btn" onClick={logout}>
                         Logout

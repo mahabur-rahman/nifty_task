@@ -1,7 +1,7 @@
 import "./header.css";
 import { Container, Navbar, Dropdown } from "react-bootstrap";
 import logo from "../../images/nifty.png";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { UserContext } from "../../context/Context";
@@ -9,9 +9,12 @@ import { UserContext } from "../../context/Context";
 const Header = () => {
   const { user, dispatch } = useContext(UserContext);
 
+  const history = useHistory();
+
   // logout user
   const logout = () => {
     dispatch({ type: "LOGOUT" });
+    history.push("/login");
   };
 
   return (
@@ -52,7 +55,7 @@ const Header = () => {
                 <Dropdown>
                   <Dropdown.Toggle variant="success" id="dropdown-basic">
                     <FaUserAlt />
-                    <span className="mx-2">Mahabur </span>
+                    <span className="mx-2 text-capitalize">{user?.name} </span>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>

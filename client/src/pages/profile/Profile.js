@@ -20,6 +20,8 @@ const Profile = () => {
   const updateProfile = async (e) => {
     e.preventDefault();
 
+    dispatch({ type: "UPDATE_START" });
+
     if (name === "") {
       toast.warning("please enter your name", {
         position: "top-center",
@@ -50,8 +52,10 @@ const Profile = () => {
         setGender("");
         setDateOfBirth("");
         setMsg(true);
+        dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
       } catch (err) {
         console.log(err);
+        dispatch({ type: "UPDATE_FAILURE" });
       }
     }
   };
@@ -61,6 +65,7 @@ const Profile = () => {
       <Container className="profile">
         <Row>
           <Col xl={6} lg={6} md={6} className="mx-auto mt-5 pt-5">
+            <h1 className="text-center mb-5">Update Your Profile</h1>
             <Form>
               <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label className="fw-bold">Name :</Form.Label>
@@ -76,11 +81,6 @@ const Profile = () => {
                 <Form.Label className="fw-bold">Email :</Form.Label>
                 <Form.Control type="email" placeholder={user?.email} disabled />
               </Form.Group>
-
-              {/* <Form.Group className="mb-3" controlId="password">
-                <Form.Label className="fw-bold">Password :</Form.Label>
-                <Form.Control type="password" placeholder="******" />
-              </Form.Group> */}
 
               <Form.Group className="mb-3" controlId="gender">
                 <Form.Label className="fw-bold">Gender :</Form.Label>

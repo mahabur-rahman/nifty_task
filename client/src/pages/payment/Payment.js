@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
 import "./payment.css";
 // stripe
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../../context/Context";
 
 const Payment = () => {
   const [stripeToken, setStripeToken] = useState(null);
@@ -14,6 +15,11 @@ const Payment = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const KEY = process.env.REACT_APP_STRIPE;
   const history = useHistory();
+
+  // context
+  const { user } = useContext(UserContext);
+
+  // console.log(user);
 
   const onToken = (token) => {
     setStripeToken(token);
@@ -30,7 +36,8 @@ const Payment = () => {
           }
         );
 
-        console.log(`res data: `, res.data);
+        // console.log(`res data: `, res.data);
+        history.push("/profile", { data: res.data });
         setPaymentProcessing(false);
         setPaymentSuccess(true);
         setShowSuccessMessage(true);
@@ -49,7 +56,7 @@ const Payment = () => {
       }
     };
     stripeToken && makeRequest();
-  }, [stripeToken]);
+  }, [stripeToken, history]);
 
   return (
     <>

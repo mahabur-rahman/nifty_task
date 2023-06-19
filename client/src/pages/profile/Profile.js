@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Container, Form, Row, Col, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Container, Form, Row, Col, Button, Spinner } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
 import { UserContext } from "../../context/Context";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,9 +12,11 @@ const Profile = () => {
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [msg, setMsg] = useState(false);
-
   // context
   const { user, dispatch } = useContext(UserContext);
+
+  const location = useLocation();
+  const id = location?.state?.data;
 
   useEffect(() => {
     // Clean up the message after 3 seconds
@@ -24,6 +26,10 @@ const Profile = () => {
 
     return () => clearTimeout(timer);
   }, [msg]);
+
+  if (!id) {
+    return "no-activated";
+  }
 
   // update profile
   const updateProfile = async (e) => {
@@ -75,6 +81,23 @@ const Profile = () => {
         <Row>
           <Col xl={6} lg={6} md={6} className="mx-auto mt-5 pt-5">
             <h1 className="text-center mb-5">Update Your Profile</h1>
+
+            {id && (
+              <div className="text-end">
+                <Button variant="success" disabled>
+                  <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    className="mx-1"
+                  />
+                  Subscriptions Activated
+                </Button>
+              </div>
+            )}
+
             <Form>
               <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label className="fw-bold">Name :</Form.Label>

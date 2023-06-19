@@ -1,28 +1,51 @@
 const UserModel = require("../models/User");
-const CryptoJS = require("crypto-js");
+const bcrypt = require("bcryptjs");
 
 // Register user
 const registerUser = async (req, res) => {
-  const newUser = new UserModel({
-    name: req.body.name,
-    email: req.body.email,
-    password: CryptoJS.AES.encrypt(
-      req.body.password,
-      process.env.PASS_SEC
-    ).toString(),
-    gender: req.body.gender,
-    dateOfBirth: req.body.dateOfBirth,
-  });
-
   try {
-    const savedUser = await newUser.save();
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(req.body.password, salt);
 
-    return res.status(201).json(savedUser);
+    const newUser = await UserModel({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPass,
+      gender: req.body.gender,
+      dateOfBirth: req.body.dateOfBirth,
+    });
+
+    const userInfo = await newUser.save();
+
+    return res.status(201).json(userInfo);
   } catch (err) {
-    return res.status(500).json({ err, msg: "Something went wrong!" });
+    return res.status(500).json(err);
+  }
+};
+
+// login user
+const loginUser = async (req, res) => {
+  try {
+    const user = await UserModel.findOne({ email: req.body.email });
+
+    if (!user) {
+      return res.status(400).json("Wrong credentials!");
+    }
+
+    const validatePass = await bcrypt.compare(req.body.password, user.password);
+
+    if (!validatePass) {
+      return res.status(400).json("Wrong credentials!");
+    }
+
+    const { password, ...others } = user._doc;
+    return res.status(200).json(others);
+  } catch (err) {
+    return res.status(500).json(err);
   }
 };
 
 module.exports = {
   registerUser,
+  loginUser,
 };
